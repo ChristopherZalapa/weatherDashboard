@@ -53,26 +53,27 @@ export default function App() {
 					darkMode ? "dark" : ""
 				} bg-white dark:bg-zinc-800 grid place-items-center h-screen w-full`}
 			>
-				<div className='flex justify-between items-center mb-8'>
-					<h1 className='flex justify-between pr-10'>Weather App</h1>
-
-					<div className='bg-zinc-100 dark:bg-zinc-700 p-2 rounded-xl'>
-						<button
-							className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
-							onClick={toggleTemperature}
-						>
-							{isFahrenheit ? (
-								<RiFahrenheitFill size={24} />
-							) : (
-								<RiCelsiusFill size={24} />
-							)}
-						</button>
-						<button
-							className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
-							onClick={() => toggleDarkMode(false)}
-						>
-							{darkMode ? <LuSun size={24} /> : <LuMoon size={24} />}
-						</button>
+				<div className='container mx-auto px-4 py-8 max-w-4xl'>
+					<div className='flex justify-between items-center mb-8'>
+						<h1 className='text-2xl font-bold dark:text-white'>Weather App</h1>
+						<div className='flex gap-3'>
+							<button
+								className='bg-zinc-100 dark:bg-zinc-700 p-3 hover:bg-zinc-200 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors'
+								onClick={toggleTemperature}
+							>
+								{isFahrenheit ? (
+									<RiFahrenheitFill size={24} />
+								) : (
+									<RiCelsiusFill size={24} />
+								)}
+							</button>
+							<button
+								className='bg-zinc-100 dark:bg-zinc-700 p-3 hover:bg-zinc-200 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors'
+								onClick={toggleDarkMode}
+							>
+								{darkMode ? <LuSun size={24} /> : <LuMoon size={24} />}
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
