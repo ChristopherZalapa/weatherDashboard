@@ -1,7 +1,8 @@
 import { useState } from "react";
 // import axios from "axios";
-import { RiseLoader } from "react-spinners";
+// import { RiseLoader } from "react-spinners";
 import { LuSun, LuMoon } from "react-icons/lu";
+import { RiFahrenheitFill, RiCelsiusFill } from "react-icons/ri";
 
 export default function App() {
 	// const [weather, setWeather] = useState(null);
@@ -32,10 +33,19 @@ export default function App() {
 	// if (error) return <p>{error}</p>;
 	// if (!weather) return <p>No Weather Data!</p>;
 	const [darkMode, setDarkMode] = useState(false);
+	const [isFahrenheit, setIsFahrenheit] = useState(true);
 
-	function toggleSwitch(mode) {
-		setDarkMode(mode);
+	function toggleDarkMode() {
+		setDarkMode(!darkMode);
 	}
+
+	function toggleTemperature() {
+		setIsFahrenheit(!isFahrenheit);
+	}
+
+	// function convertTemperature(temp) {
+	// 	return isFahrenheit ? temp : Math.round((temp * 9) / 5 + 32);
+	// }
 	return (
 		<>
 			<div
@@ -43,19 +53,27 @@ export default function App() {
 					darkMode ? "dark" : ""
 				} bg-white dark:bg-zinc-800 grid place-items-center h-screen w-full`}
 			>
-				<div className='bg-zinc-100 dark:bg-zinc-700 p-2 rounded-xl'>
-					<button
-						className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
-						onClick={() => toggleSwitch(false)}
-					>
-						<LuSun />
-					</button>
-					<button
-						className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
-						onClick={() => toggleSwitch(true)}
-					>
-						<LuMoon />
-					</button>
+				<div className='flex justify-between items-center mb-8'>
+					<h1 className='flex justify-between pr-10'>Weather App</h1>
+
+					<div className='bg-zinc-100 dark:bg-zinc-700 p-2 rounded-xl'>
+						<button
+							className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
+							onClick={toggleTemperature}
+						>
+							{isFahrenheit ? (
+								<RiFahrenheitFill size={24} />
+							) : (
+								<RiCelsiusFill size={24} />
+							)}
+						</button>
+						<button
+							className='bg-transparent p-3 hover:bg-zinc-200 dark:hover:bg-zinc-100/10 rounded-lg text-black dark:text-white'
+							onClick={() => toggleDarkMode(false)}
+						>
+							{darkMode ? <LuSun size={24} /> : <LuMoon size={24} />}
+						</button>
+					</div>
 				</div>
 			</div>
 		</>
