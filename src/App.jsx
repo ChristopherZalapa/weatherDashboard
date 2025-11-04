@@ -13,24 +13,27 @@ export default function App() {
 	const [isFahrenheit, setIsFahrenheit] = useState(true);
 
 	useEffect(() => {
-		if (city === "") {
+		if (city.trim() === "") {
 			setWeather(null);
 			setLoading(false);
 			console.log("Add your city");
+			return;
 		} else {
 			const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-			const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+			const safeCity = encodeURIComponent(city);
+			const url = `https://api.openweathermap.org/data/2.5/weather?q=${safeCity}&appid=${apiKey}&units=metric`;
 
 			const fetchWeather = async () => {
 				try {
-					const response = await axios.get(url);
 					setLoading(true);
-					console.log(response.data);
+					setError(null);
+					const response = await axios.get(url);
+					console.log(`Success: ${city}`, response.data);
 					setWeather(response.data);
 				} catch (error) {
-					setError(error.message);
+					setError(`Error fetching ${city}`, error.message);
 				} finally {
-					setLoading(false);
+					setTimeout(() => setLoading(false), 500);
 				}
 			};
 			fetchWeather();
@@ -49,8 +52,8 @@ export default function App() {
 		setIsFahrenheit(!isFahrenheit);
 	}
 
-	function cityChange(event) {
-		setCity(event.target.value);
+	function cityChange(cityName) {
+		setCity(cityName);
 	}
 
 	return (
