@@ -6,30 +6,36 @@ import { RiseLoader } from "react-spinners";
 
 export default function App() {
 	const [weather, setWeather] = useState(null);
+	const [city, setCity] = useState("Los Angeles");
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [darkMode, setDarkMode] = useState(true);
+	const [darkMode, setDarkMode] = useState(false);
 	const [isFahrenheit, setIsFahrenheit] = useState(true);
-	const city = "Los Angeles";
 
 	useEffect(() => {
-		const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-		const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+		if (city === "") {
+			setWeather(null);
+			setLoading(false);
+			console.log("Add your city");
+		} else {
+			const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+			const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-		const fetchWeather = async () => {
-			try {
-				const response = await axios.get(url);
-				setLoading(true);
-				console.log(response.data);
-				setWeather(response.data);
-			} catch (error) {
-				setError(error.message);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchWeather();
-	}, []);
+			const fetchWeather = async () => {
+				try {
+					const response = await axios.get(url);
+					setLoading(true);
+					console.log(response.data);
+					setWeather(response.data);
+				} catch (error) {
+					setError(error.message);
+				} finally {
+					setLoading(false);
+				}
+			};
+			fetchWeather();
+		}
+	}, [city]);
 
 	if (loading) return <RiseLoader />;
 	if (error) return <p>{error}</p>;
@@ -41,6 +47,10 @@ export default function App() {
 
 	function toggleTemperature() {
 		setIsFahrenheit(!isFahrenheit);
+	}
+
+	function cityChange(event) {
+		setCity(event.target.value);
 	}
 
 	return (
@@ -57,7 +67,7 @@ export default function App() {
 						darkMode={darkMode}
 						isFahrenheit={isFahrenheit}
 					/>
-					<SearchBar />
+					<SearchBar cityChange={cityChange} />
 				</div>
 			</div>
 		</>
