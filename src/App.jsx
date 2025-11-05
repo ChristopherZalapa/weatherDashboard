@@ -71,17 +71,26 @@ export default function App() {
 	const displayWindSpeed = weather.wind.speed;
 
 	//Forecast Data
-	const forecastTimestamp = forecastWeather.list[0].dt;
-	const forecastTimeMs = convertToMilliseconds(forecastTimestamp);
-	const forecastDate = convertToDate(forecastTimeMs);
-	console.log("This is the first day:", forecastDate);
+	let dayName = "";
 
-	function convertToDate(timestamp) {
-		return new Date(timestamp);
-	}
+	if (forecastWeather?.list?.length) {
+		const forecastTimestamp = forecastWeather.list[1].dt;
+		const tzOffset = forecastWeather.list[1].dt;
+		const localMs = (forecastTimestamp + tzOffset) * 1000;
+		const forecastDate = new Date(localMs);
 
-	function convertToMilliseconds(seconds) {
-		return seconds * 1000;
+		const daysOfWeek = [
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+		];
+
+		const dayIndex = forecastDate.getUTCDay();
+		dayName = daysOfWeek[dayIndex];
 	}
 
 	function capitalizeWords(str = "") {
@@ -134,7 +143,7 @@ export default function App() {
 					isFahrenheit={isFahrenheit}
 					displayWindSpeed={displayWindSpeed}
 				/>
-				<Forecast/>
+				<Forecast dayName={dayName} />
 			</div>
 		</div>
 	);
