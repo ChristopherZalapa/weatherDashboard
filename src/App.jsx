@@ -49,8 +49,10 @@ export default function App() {
 	const displayCity = weather.name;
 	const displayTemp = weather.main.temp;
 	const displayHumidity = weather.main.humidity;
+	const displayIconCondition = weather.weather[0].main;
 	const displayDescription = weather.weather[0].description;
 	const displayWindSpeed = weather.wind.speed;
+	
 
 	function toggleDarkMode() {
 		setDarkMode(!darkMode);
@@ -83,6 +85,7 @@ export default function App() {
 						displayCity={displayCity}
 						displayTemp={displayTemp}
 						displayHumidity={displayHumidity}
+						displayIconCondition={displayIconCondition}
 						displayDescription={displayDescription}
 						displayWindSpeed={displayWindSpeed}
 					/>
