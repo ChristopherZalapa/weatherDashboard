@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Headers from "./Components/Headers";
 import SearchBar from "./Components/SearchBar";
+import WeatherCard from "./Components/WeatherCard";
 import axios from "axios";
 import { RiseLoader } from "react-spinners";
 
@@ -44,6 +45,12 @@ export default function App() {
 	if (error) return <p>{error}</p>;
 	if (!weather) return <p>No Weather Data!</p>;
 
+	// WeatherCard Data
+	const displayCity = weather.name;
+	const displayTemp = weather.main.temp;
+	const displayDescription = weather.weather[0].description;
+	const displayWindSpeed = weather.wind.speed;
+
 	function toggleDarkMode() {
 		setDarkMode(!darkMode);
 	}
@@ -71,6 +78,12 @@ export default function App() {
 						isFahrenheit={isFahrenheit}
 					/>
 					<SearchBar cityChange={cityChange} />
+					<WeatherCard
+						displayCity={displayCity}
+						displayTemp={displayTemp}
+						displayDescription={displayDescription}
+						displayWindSpeed={displayWindSpeed}
+					/>
 				</div>
 			</div>
 		</>
