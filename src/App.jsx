@@ -4,10 +4,11 @@ import SearchBar from "./Components/SearchBar";
 import WeatherCard from "./Components/WeatherCard";
 import axios from "axios";
 import { RiseLoader } from "react-spinners";
+import Forecast from "./Components/Forecast";
 
 export default function App() {
 	const [weather, setWeather] = useState(null);
-	const [forecastWeather, setForecastWeather] = useState(null)
+	// const [forecastWeather, setForecastWeather] = useState(null)
 	const [city, setCity] = useState("Los Angeles");
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -112,6 +113,7 @@ export default function App() {
 					isFahrenheit={isFahrenheit}
 					displayWindSpeed={displayWindSpeed}
 				/>
+				<Forecast />
 			</div>
 		</div>
 	);

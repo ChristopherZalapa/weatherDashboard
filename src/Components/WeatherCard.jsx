@@ -61,6 +61,3 @@ export default function WeatherCard({
 		</div>
 	);
 }
-
-// word = 'hello'
-// word.toUpperCase()[0]
