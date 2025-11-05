@@ -48,6 +48,7 @@ export default function App() {
 	// WeatherCard Data
 	const displayCity = weather.name;
 	const displayTemp = weather.main.temp;
+	const displayHumidity = weather.main.humidity;
 	const displayDescription = weather.weather[0].description;
 	const displayWindSpeed = weather.wind.speed;
 
@@ -81,6 +82,7 @@ export default function App() {
 					<WeatherCard
 						displayCity={displayCity}
 						displayTemp={displayTemp}
+						displayHumidity={displayHumidity}
 						displayDescription={displayDescription}
 						displayWindSpeed={displayWindSpeed}
 					/>
