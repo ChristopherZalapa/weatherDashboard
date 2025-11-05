@@ -8,10 +8,11 @@ import Forecast from "./Components/Forecast";
 
 export default function App() {
 	const [weather, setWeather] = useState(null);
-	// const [forecastWeather, setForecastWeather] = useState(null)
 	const [city, setCity] = useState("Los Angeles");
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [forecastWeather, setForecastWeather] = useState(null);
+	const [forecastError, setForecastError] = useState(null);
 	const [darkMode, setDarkMode] = useState(false);
 	const [isFahrenheit, setIsFahrenheit] = useState(false);
 
@@ -26,15 +27,21 @@ export default function App() {
 			const safeCity = encodeURIComponent(city);
 			const url = `https://api.openweathermap.org/data/2.5/weather?q=${safeCity}&appid=${apiKey}&units=metric`;
 
+			const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${safeCity}&appid=${apiKey}&units=metric`;
+
 			const fetchWeather = async () => {
 				try {
 					setLoading(true);
 					setError(null);
 					const response = await axios.get(url);
+					const forecastResponse = await axios.get(forecastUrl);
 					console.log(`Success: ${city}`, response.data);
+					console.log(`Success: ${city} forecast`, forecastResponse.data);
 					setWeather(response.data);
+					setForecastWeather(forecastResponse.data);
 				} catch (error) {
 					setError(`Error fetching ${city}`, error.message);
+					setForecastError(`Error fetching ${city}`, error.message);
 				} finally {
 					setTimeout(() => setLoading(false), 500);
 				}
@@ -44,8 +51,8 @@ export default function App() {
 	}, [city]);
 
 	if (loading) return <RiseLoader />;
-	if (error) return <p>{error}</p>;
-	if (!weather) return <p>No Weather Data!</p>;
+	if (error && forecastError) return <p>{error}</p>;
+	if (!weather && forecastWeather) return <p>No Weather Data!</p>;
 
 	// WeatherCard Data
 	const displayCity = weather.name;
@@ -62,6 +69,20 @@ export default function App() {
 	const displayDescription = capitalizeWords(displayDescriptionRaw);
 
 	const displayWindSpeed = weather.wind.speed;
+
+	//Forecast Data
+	const forecastTimestamp = forecastWeather.list[0].dt;
+	const forecastTimeMs = convertToMilliseconds(forecastTimestamp);
+	const forecastDate = convertToDate(forecastTimeMs);
+	console.log("This is the first day:", forecastDate);
+
+	function convertToDate(timestamp) {
+		return new Date(timestamp);
+	}
+
+	function convertToMilliseconds(seconds) {
+		return seconds * 1000;
+	}
 
 	function capitalizeWords(str = "") {
 		return str
@@ -113,7 +134,7 @@ export default function App() {
 					isFahrenheit={isFahrenheit}
 					displayWindSpeed={displayWindSpeed}
 				/>
-				<Forecast />
+				<Forecast/>
 			</div>
 		</div>
 	);
