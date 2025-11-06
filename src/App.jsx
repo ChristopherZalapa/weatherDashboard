@@ -50,7 +50,12 @@ export default function App() {
 		}
 	}, [city]);
 
-	if (loading) return <RiseLoader />;
+	if (loading)
+		return (
+			<div className='flex justify-center items-center min-h-screen'>
+				<RiseLoader size={20} />
+			</div>
+		);
 	if (error && forecastError) return <p>{error}</p>;
 	if (!weather && forecastWeather) return <p>No Weather Data!</p>;
 
@@ -75,6 +80,7 @@ export default function App() {
 
 	if (forecastWeather?.list?.length) {
 		const tzOffset = forecastWeather.city.timezone;
+
 		const days = [
 			"Sunday",
 			"Monday",
@@ -100,6 +106,7 @@ export default function App() {
 				dayNamesForForecast.push(days[d.getUTCDay()]);
 				lastDate = dateKey;
 				if (dayNamesForForecast.length === 5) break;
+				console.log("Days Picked:", dateKey, days[d.getUTCDay()]);
 			}
 		}
 	}
