@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import Headers from "./Components/Headers";
 import SearchBar from "./Components/SearchBar";
 import WeatherCard from "./Components/WeatherCard";
-import axios from "axios";
-import { RiseLoader } from "react-spinners";
 import Forecast from "./Components/Forecast";
+import { RiseLoader } from "react-spinners";
 
 export default function App() {
 	const [weather, setWeather] = useState(null);
@@ -75,8 +75,9 @@ export default function App() {
 
 	const displayWindSpeed = weather.wind.speed;
 
-	//Forecast Data
+	// Forecast Data
 	let dayNamesForForecast = [];
+	let forecastDays = []; // <-- final array for Forecast component
 
 	if (forecastWeather?.list?.length) {
 		const tzOffset = forecastWeather.city.timezone;
@@ -96,6 +97,10 @@ export default function App() {
 		const todayKey = new Date(firstLocalMs).toISOString().slice(0, 10);
 
 		let lastDate = todayKey;
+		let currentDateKey = null;
+		let currentHigh = -Infinity;
+		let currentLow = Infinity;
+		let currentDayName = "";
 
 		for (const item of forecastWeather.list) {
 			const localMs = (item.dt + tzOffset) * 1000;
@@ -103,14 +108,41 @@ export default function App() {
 			const dateKey = d.toISOString().slice(0, 10);
 
 			if (dateKey !== lastDate) {
-				dayNamesForForecast.push(days[d.getUTCDay()]);
+				if (currentDateKey) {
+					forecastDays.push({
+						dayName: currentDayName,
+						high: temperatureFormat(currentHigh),
+						low: temperatureFormat(currentLow),
+					});
+					dayNamesForForecast.push(currentDayName);
+					if (forecastDays.length === 5) break;
+				}
+
+				currentDateKey = dateKey;
+				currentHigh = -Infinity;
+				currentLow = Infinity;
+				currentDayName = days[d.getUTCDay()];
 				lastDate = dateKey;
-				if (dayNamesForForecast.length === 5) break;
-				console.log("Days Picked:", dateKey, days[d.getUTCDay()]);
 			}
+
+			// Temps Highs & Lows
+			currentHigh = Math.max(currentHigh, item.main.temp_max);
+			currentLow = Math.min(currentLow, item.main.temp_min);
 		}
+
+		if (forecastDays.length < 5 && currentDateKey) {
+			forecastDays.push({
+				dayName: currentDayName,
+				high: temperatureFormat(currentHigh),
+				low: temperatureFormat(currentLow),
+			});
+			dayNamesForForecast.push(currentDayName);
+		}
+
+		console.log("Forecast Days:", forecastDays);
 	}
 
+	
 	function capitalizeWords(str = "") {
 		return str
 			.split(" ")
@@ -161,7 +193,12 @@ export default function App() {
 					isFahrenheit={isFahrenheit}
 					displayWindSpeed={displayWindSpeed}
 				/>
-				<Forecast daysName={dayNamesForForecast} />
+				<Forecast
+					forecastDays={forecastDays}
+					isFahrenheit={isFahrenheit}
+					temperatureFormat={temperatureFormat}
+					convertToFahrenheit={convertToFahrenheit}
+				/>
 			</div>
 		</div>
 	);
