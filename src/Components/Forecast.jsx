@@ -23,12 +23,16 @@ export default function Forecast({
 					<div key={i}>
 						<h1>{displayName}</h1>
 
-						<p className='flex items-center justify-center'>
-							High:{displayHighs}
+						<p className='flex items-center justify-center gap-1'>
+							High:
+							<span className='inline-block w-5 text-right'>
+								{displayHighs}
+							</span>
 							{isFahrenheit ? <RiFahrenheitFill /> : <RiCelsiusFill />}
 						</p>
-						<p className='flex items-center justify-center'>
-							Low: {displayLows}
+						<p className='flex items-center justify-center gap-1'>
+							Low:
+							<span className='inline-block w-5 text-right'>{displayLows}</span>
 							{isFahrenheit ? <RiFahrenheitFill /> : <RiCelsiusFill />}
 						</p>
 					</div>
