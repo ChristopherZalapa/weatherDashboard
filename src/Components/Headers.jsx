@@ -13,7 +13,7 @@ export default function Headers({
 				<h1 className='text-2xl font-bold dark:text-white'>Weather App</h1>
 				<div className='flex gap-3'>
 					<button
-						className='bg-zinc-100 dark:bg-zinc-700 p-3 hover:bg-zinc-200 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors'
+						className='bg-zinc-200 dark:bg-zinc-700 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
 						onClick={toggleTemperature}
 					>
 						{isFahrenheit ? (
@@ -23,7 +23,7 @@ export default function Headers({
 						)}
 					</button>
 					<button
-						className='bg-zinc-100 dark:bg-zinc-700 p-3 hover:bg-zinc-200 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors'
+						className='bg-zinc-200 dark:bg-zinc-700 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
 						onClick={toggleDarkMode}
 					>
 						{darkMode ? <LuSun size={24} /> : <LuMoon size={24} />}

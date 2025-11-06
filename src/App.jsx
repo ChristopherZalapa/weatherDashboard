@@ -7,8 +7,17 @@ import Forecast from "./Components/Forecast";
 import { RiseLoader } from "react-spinners";
 
 export default function App() {
+	// This is the key for localstorage.
+	const PREVIOUS_CITY_KEY = "weather: previousCity";
+
+	// States
 	const [weather, setWeather] = useState(null);
-	const [city, setCity] = useState("Los Angeles");
+
+	const [city, setCity] = useState(() => {
+		const saveCity = localStorage.getItem(PREVIOUS_CITY_KEY);
+		return saveCity?.trim() || "Los Angeles";
+	});
+
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [forecastWeather, setForecastWeather] = useState(null);
@@ -47,6 +56,13 @@ export default function App() {
 				}
 			};
 			fetchWeather();
+		}
+	}, [city]);
+
+	// Saves to local storage
+	useEffect(() => {
+		if (city.trim()) {
+			localStorage.setItem(PREVIOUS_CITY_KEY, city);
 		}
 	}, [city]);
 
@@ -142,7 +158,6 @@ export default function App() {
 		console.log("Forecast Days:", forecastDays);
 	}
 
-	
 	function capitalizeWords(str = "") {
 		return str
 			.split(" ")
