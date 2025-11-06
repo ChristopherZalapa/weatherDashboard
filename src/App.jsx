@@ -71,15 +71,11 @@ export default function App() {
 	const displayWindSpeed = weather.wind.speed;
 
 	//Forecast Data
-	let dayName = "";
+	let dayNamesForForecast = [];
 
 	if (forecastWeather?.list?.length) {
-		const forecastTimestamp = forecastWeather.list[1].dt;
-		const tzOffset = forecastWeather.list[1].dt;
-		const localMs = (forecastTimestamp + tzOffset) * 1000;
-		const forecastDate = new Date(localMs);
-
-		const daysOfWeek = [
+		const tzOffset = forecastWeather.city.timezone;
+		const days = [
 			"Sunday",
 			"Monday",
 			"Tuesday",
@@ -89,8 +85,23 @@ export default function App() {
 			"Saturday",
 		];
 
-		const dayIndex = forecastDate.getUTCDay();
-		dayName = daysOfWeek[dayIndex];
+		const firstItem = forecastWeather.list[0];
+		const firstLocalMs = (firstItem.dt + tzOffset) * 1000;
+		const todayKey = new Date(firstLocalMs).toISOString().slice(0, 10);
+
+		let lastDate = todayKey;
+
+		for (const item of forecastWeather.list) {
+			const localMs = (item.dt + tzOffset) * 1000;
+			const d = new Date(localMs);
+			const dateKey = d.toISOString().slice(0, 10);
+
+			if (dateKey !== lastDate) {
+				dayNamesForForecast.push(days[d.getUTCDay()]);
+				lastDate = dateKey;
+				if (dayNamesForForecast.length === 5) break;
+			}
+		}
 	}
 
 	function capitalizeWords(str = "") {
@@ -143,7 +154,7 @@ export default function App() {
 					isFahrenheit={isFahrenheit}
 					displayWindSpeed={displayWindSpeed}
 				/>
-				<Forecast dayName={dayName} />
+				<Forecast daysName={dayNamesForForecast} />
 			</div>
 		</div>
 	);
