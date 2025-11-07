@@ -9,24 +9,30 @@ export default function Headers({
 }) {
 	return (
 		<>
-			<div className='flex justify-between items-center mb-8'>
-				<h1 className='text-2xl font-bold dark:text-white'>Weather App</h1>
-				<div className='flex gap-3'>
+			<div className='flex justify-between items-center mb-6 md:mb-8'>
+				<h1 className='text-xl md:text-2xl font-bold dark:text-white'>
+					Weather App
+				</h1>
+				<div className='flex gap-2 md:gap-3'>
 					<button
-						className='bg-zinc-200 dark:bg-zinc-700 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
+						className='bg-zinc-200 dark:bg-zinc-700 p-2 md:p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
 						onClick={toggleTemperature}
 					>
 						{isFahrenheit ? (
-							<RiFahrenheitFill size={24} />
+							<RiFahrenheitFill size={20} className='md:w-6 md:h-6' />
 						) : (
-							<RiCelsiusFill size={24} />
+							<RiCelsiusFill size={20} className='md:w-6 md:h-6' />
 						)}
 					</button>
 					<button
-						className='bg-zinc-200 dark:bg-zinc-700 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
+						className='bg-zinc-200 dark:bg-zinc-700 p-2 md:p-3 hover:bg-zinc-100 dark:hover:bg-zinc-600 rounded-lg text-black dark:text-white transition-colors shadow-md'
 						onClick={toggleDarkMode}
 					>
-						{darkMode ? <LuSun size={24} /> : <LuMoon size={24} />}
+						{darkMode ? (
+							<LuSun size={20} className='md:w-6 md:h-6' />
+						) : (
+							<LuMoon size={20} className='md:w-6 md:h-6' />
+						)}
 					</button>
 				</div>
 			</div>

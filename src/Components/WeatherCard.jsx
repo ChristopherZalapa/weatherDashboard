@@ -30,25 +30,27 @@ export default function WeatherCard({
 	const icon = weatherIcons[displayIconCondition] || <CiCloudSun />;
 
 	return (
-		<div className='bg-white text-center dark:text-black \ max-w-2xl text-gray-900 shadow-md p-6 rounded-lg border-gray-300 mx-auto'>
-			<div className=''>
-				<h1 className=' font-bold text-3xl'>{displayCity}</h1>
+		<div className='bg-white text-center dark:text-black max-w-2xl text-gray-900 shadow-md p-4 md:p-6 rounded-lg border-gray-300 mx-auto'>
+			<div>
+				<h1 className='font-bold text-2xl md:text-3xl'>{displayCity}</h1>
 			</div>
 
-			<h2 className=' mt-6 text-9xl self-center inline-flex items-center justify-center h-24 w-24'>
+			<h2 className='mt-4 md:mt-6 text-6xl md:text-9xl inline-flex items-center justify-center h-16 w-16 md:h-24 md:w-24'>
 				{icon}
 			</h2>
 
-			<div className='flex justify-center items-center space-x-3 mt-4'>
-				<p className='font-medium text-3xl flex justify-center items-center gap-1'>
-					<span className='inline-block w-20 text-right'>{displayTemp}</span>
+			<div className='flex flex-col md:flex-row justify-center items-center md:space-x-3 mt-4 gap-2'>
+				<p className='font-medium text-2xl md:text-3xl flex justify-center items-center gap-1'>
+					<span className='inline-block w-16 md:w-20 text-right'>
+						{displayTemp}
+					</span>
 					{isFahrenheit ? <RiFahrenheitFill /> : <RiCelsiusFill />}
 				</p>
-				<p className=''>{displayDescription}</p>
+				<p className='text-base md:text-lg'>{displayDescription}</p>
 			</div>
 
-			<div className='flex justify-between text-lg mt-6 px-20'>
-				<p className='inline-flex text-center justify-center items-center'>
+			<div className='flex flex-col md:flex-row justify-center md:justify-between text-base md:text-lg mt-6 gap-3 md:gap-0 md:px-20'>
+				<p className='inline-flex justify-center items-center'>
 					Humidity &nbsp;
 					{displayHumidity}
 					<VscPercentage />

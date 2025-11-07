@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Headers from "./Components/Headers";
+
 import SearchBar from "./Components/SearchBar";
 import WeatherCard from "./Components/WeatherCard";
 import Forecast from "./Components/Forecast";
@@ -12,7 +13,6 @@ export default function App() {
 
 	// States
 	const [weather, setWeather] = useState(null);
-
 	const [city, setCity] = useState(() => {
 		const saveCity = localStorage.getItem(PREVIOUS_CITY_KEY);
 		return saveCity?.trim() || "Los Angeles";
@@ -68,8 +68,8 @@ export default function App() {
 
 	if (loading)
 		return (
-			<div className='flex justify-center items-center min-h-screen'>
-				<RiseLoader size={20} />
+			<div className='flex justify-center items-center min-h-screen bg-gray-100 dark:bg-zinc-800'>
+				<RiseLoader size={20} color='#3b82f6' />
 			</div>
 		);
 	if (error && forecastError) return <p>{error}</p>;
@@ -93,7 +93,9 @@ export default function App() {
 
 	// Forecast Data
 	let dayNamesForForecast = [];
-	let forecastDays = []; // <-- final array for Forecast component
+
+	// This is an array of objects
+	let forecastDays = [];
 
 	if (forecastWeather?.list?.length) {
 		const tzOffset = forecastWeather.city.timezone;
@@ -189,9 +191,9 @@ export default function App() {
 		<div
 			className={`${
 				darkMode ? "dark" : ""
-			} bg-gray-100 dark:bg-zinc-800 min-h-screen w-full `}
+			} bg-gray-100 dark:bg-zinc-800 min-h-screen w-full`}
 		>
-			<div className='container mx-auto px-4 py-8 max-w-4xl space-y-10'>
+			<div className='container mx-auto px-4 py-4 md:py-8 max-w-4xl space-y-6 md:space-y-10'>
 				<Headers
 					toggleDarkMode={toggleDarkMode}
 					toggleTemperature={toggleTemperature}
