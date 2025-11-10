@@ -72,8 +72,33 @@ export default function App() {
 				<RiseLoader size={20} color='#3b82f6' />
 			</div>
 		);
-	if (error && forecastError) return <p>{error}</p>;
-	if (!weather && forecastWeather) return <p>No Weather Data!</p>;
+
+	// if (error && forecastError) return <p>{error}</p>;
+	// if (!weather && forecastWeather) return <p>No Weather Data!</p>;
+
+	if (error && forecastError)
+		return (
+			<div
+				className={`${
+					darkMode ? "dark" : ""
+				} bg-gray-100 dark:bg-zinc-800 min-h-screen w-full`}
+			>
+				<div className='container mx-auto px-4 py-4 md:py-8 max-w-4xl space-y-6 md:space-y-10'>
+					<Headers
+						toggleDarkMode={toggleDarkMode}
+						toggleTemperature={toggleTemperature}
+						darkMode={darkMode}
+						isFahrenheit={isFahrenheit}
+					/>
+					<SearchBar cityChange={cityChange} />
+
+					<div className='bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-6 py-4 rounded-lg text-center max-w-2xl mx-auto'>
+						<h2 className='font-semibold text-lg mb-2'>City Not Found</h2>
+						<p>Please try searching for another city.</p>
+					</div>
+				</div>
+			</div>
+		);
 
 	// WeatherCard Data
 	const displayCity = weather.name;
@@ -184,6 +209,8 @@ export default function App() {
 	}
 
 	function cityChange(cityName) {
+		setError(null);
+		setForecastError(null);
 		setCity(cityName);
 	}
 
