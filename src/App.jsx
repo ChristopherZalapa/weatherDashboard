@@ -23,7 +23,7 @@ export default function App() {
 	const [forecastWeather, setForecastWeather] = useState(null);
 	const [forecastError, setForecastError] = useState(null);
 	const [darkMode, setDarkMode] = useState(false);
-	const [isFahrenheit, setIsFahrenheit] = useState(false);
+	const [isFahrenheit, setIsFahrenheit] = useState(true);
 
 	useEffect(() => {
 		if (city.trim() === "") {
